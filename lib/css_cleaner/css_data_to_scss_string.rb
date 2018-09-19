@@ -1,3 +1,5 @@
+# Given the css data and the css vars output it to a formatted scss string
+
 class CssDataToScssString
   def initialize(css_data:, css_vars:)
     @css_data = css_data
@@ -9,7 +11,7 @@ class CssDataToScssString
     add_vars_to_string
     scss_string << "\n"
     add_data_to_string
-    scss_string.strip
+    scss_string.strip << "\n"
   end
 
   private

@@ -1,0 +1,4 @@
+require 'css_cleaner'
+
+cleaner = CssCleaner.new(filename: 'data/sample.css')
+cleaner.clean

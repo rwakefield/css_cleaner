@@ -1,7 +1,7 @@
-require './src/css_extractor.rb'
-require './src/css_variable_extractor.rb'
-require './src/css_variable_replacer.rb'
-require './src/css_data_to_scss_string.rb'
+require_relative 'css_cleaner/css_extractor.rb'
+require_relative 'css_cleaner/css_variable_extractor.rb'
+require_relative 'css_cleaner/css_variable_replacer.rb'
+require_relative 'css_cleaner/css_data_to_scss_string.rb'
 
 class CssCleaner
   def initialize(filename:)
@@ -20,7 +20,7 @@ class CssCleaner
   private
 
   def extract_data
-    @css_data = CssExtractor.new(css_string: css_string).extract_to_hash
+    @css_data = CssExtractor.new(css_string: css_string).extract
   end
 
   def extract_vars
@@ -37,14 +37,10 @@ class CssCleaner
 
   def output_cleaned_file
     new_filename = filename.gsub('css', 'scss').gsub('data', 'output')
-    out_file = File.new(new_filename, "w")
+    out_file = File.new(new_filename, 'w')
     out_file.puts(scss_string)
     out_file.close
-    puts "SUCCESS: #{new_filename} created"
   end
 
   attr_reader :css_data, :css_string, :css_vars, :scss_string, :normalized_css_vars, :filename
 end
-
-cleaner = CssCleaner.new(filename: './data/sample.css')
-cleaner.clean
