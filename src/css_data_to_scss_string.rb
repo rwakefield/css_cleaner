@@ -7,22 +7,22 @@ class CssDataToScssString
 
   def generate_string
     add_vars_to_string
-    scss_string << "\n\n"
+    scss_string << "\n"
     add_data_to_string
-    scss_string
+    scss_string.strip
   end
 
   private
 
   def add_data_to_string
-    key_string = ""
-    value_string = ""
-    css_data.each do |key, values|
-      key_string = "#{key} {\n"
-      value_string = values.map do |value|
-        "  #{value};"
+    block_name_string = ""
+    property_lines_string = ""
+    css_data.each do |block_name, property_lines|
+      block_name_string = "#{block_name} {\n"
+      property_lines_string = property_lines.map do |property_line|
+        "  #{property_line};"
       end.join("\n")
-      scss_string << ("#{key_string}#{value_string}\n}\n\n")
+      scss_string << ("#{block_name_string}#{property_lines_string}\n}\n\n")
     end
   end
 

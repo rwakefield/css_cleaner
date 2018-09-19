@@ -1,34 +1,62 @@
+
 class CssVariableExtractor
+
   def initialize(css_data:)
-    @css_values = css_data.values
-    @var_array = get_var_array
+    @css_data = css_data
+    @all_properties = []
+    @property_counts = {}
+    @css_variables = {}
   end
 
   def extract_variables
-    var_hash = {}
-    var_array.each do |var|
-      var_name = clean_var_name(var.join(''))
-      var_value = var[1]
-      var_hash[var_name] = var_value
-    end
-    var_hash
+    get_all_properties_from_css_data
+    zero_out_property_counts
+    map_property_lines_to_variable_names
+    css_variables.sort.to_h
   end
 
   private
 
-  def clean_var_name(var_name)
-    var_name.gsub(/[^0-9a-z ]/i, '').gsub(' ','-')
-  end
-
-  def get_var_array
-    var_array = []
-    css_values.each do |values|
-      values.each do |value|
-        var_array.push(value.split(':').map(&:strip))
+  def get_all_properties_from_css_data
+    block_properties = css_data.values
+    block_properties.each do |properties|
+      properties.each do |property|
+        all_properties.push(property)
       end
     end
-    var_array.uniq
+    all_properties.uniq!
   end
 
-  attr_reader :css_values, :var_array
+  def generate_variable_name(property_line)
+    property_name = get_property_name(property_line)
+    count = property_counts[property_name]
+    if count
+      count += 1
+      property_counts[property_name] = count
+    else
+      property_counts[property_name] = 1
+    end
+    "#{property_name}-#{count}"
+  end
+
+  def map_property_lines_to_variable_names
+    all_properties.each do |property_line|
+      var_name = generate_variable_name(property_line)
+      css_variables[var_name] = property_line
+    end
+  end
+
+  def get_property_name(property_line)
+    property_line.split(': ')[0]
+  end
+
+  def zero_out_property_counts
+    all_properties.each do |property_line|
+      property_name = get_property_name(property_line)
+      property_counts[property_name] = 0
+    end
+  end
+
+  attr_reader :css_data
+  attr_accessor :all_properties, :css_variables, :property_counts
 end
