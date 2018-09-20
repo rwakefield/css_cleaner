@@ -1,3 +1,4 @@
+require_relative 'css_cleaner/css_string_cleaner.rb'
 require_relative 'css_cleaner/css_extractor.rb'
 require_relative 'css_cleaner/css_variable_extractor.rb'
 require_relative 'css_cleaner/css_variable_replacer.rb'
@@ -10,6 +11,7 @@ class CssCleaner
   end
 
   def clean
+    clean_css
     extract_data
     extract_vars
     replace_vars_in_data
@@ -18,6 +20,10 @@ class CssCleaner
   end
 
   private
+
+  def clean_css
+    @css_string = CssStringCleaner.new(css_string: css_string).clean
+  end
 
   def extract_data
     @css_data = CssExtractor.new(css_string: css_string).extract

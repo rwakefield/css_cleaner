@@ -18,7 +18,6 @@ class CssExtractor
 
   def extract
     css_string.each_line do |line|
-      line = remove_whitespace_from_line(line)
       extract_data_from_line(line)
     end
     css_data_hash
@@ -28,10 +27,6 @@ class CssExtractor
 
   attr_reader :css_string
   attr_accessor :css_data_hash
-
-  def remove_whitespace_from_line(line)
-    line.gsub(/\s+/, ' ')
-  end
 
   def extract_data_from_line(line)
     if line_is_block_name?(line)

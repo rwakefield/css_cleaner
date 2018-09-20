@@ -1,6 +1,21 @@
 require 'minitest/autorun'
 
-def fixture_input_css
+def fixture_ugly_css_string
+  <<~EOF
+     p
+     {
+          color:    blue;
+       font-size:
+        15px;
+     }
+  EOF
+end
+
+def fixture_one_liner_css
+  "p { color: blue; }"
+end
+
+def fixture_css_string
   <<~EOF
      p {
        color: blue;

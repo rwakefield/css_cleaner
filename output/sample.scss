@@ -1,7 +1,12 @@
 $color-1: blue;
+$color-2: green;
 $font-size-1: 15px;
 
 p {
   color: $color-1;
   font-size: $font-size-1;
+}
+
+.green {
+  color: $color-2;
 }
