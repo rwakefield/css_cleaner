@@ -1,15 +1,7 @@
 # Used to convert a css_string into a readable hash format where the "block_name" is
 # the hash key and the value is an array of property lines.
-#
-#  GIVEN:
-#    p {
-#      color: blue;
-#      font-size: 15px;
-#    }
-#
-#  OUTPUT: { "p" => ["color: blue", "font-size: 15px"] }
 
-class CssExtractor
+class Extractor
   def initialize(css_string:)
     @css_string = css_string
     @css_data_hash = {}

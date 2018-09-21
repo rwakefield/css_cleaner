@@ -1,6 +1,6 @@
 # Given the css data and the css vars output it to a formatted scss string
 
-class CssDataToScssString
+class Stringifier
   def initialize(css_data:, css_vars:)
     @css_data = css_data
     @css_vars = css_vars
@@ -11,7 +11,7 @@ class CssDataToScssString
     add_vars_to_string
     scss_string << "\n"
     add_data_to_string
-    scss_string.strip << "\n"
+    scss_string.strip
   end
 
   private

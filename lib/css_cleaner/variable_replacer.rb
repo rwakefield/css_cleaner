@@ -1,13 +1,7 @@
 # When passed a css_vars hash and a css_data hash it will replace the "property values" in the css
 # data hash with the variable names.
-#
-#   GIVEN:
-#     css_data: { "p" => ["color: blue", "font-size: 15px"] }
-#     css_vars: { "color-1" => "blue", "font-size-1" => "15px" }
-#
-#   OUTPUT: { "p" => ["color: $color-1", "font-size: $font-size-1"] }
 
-class CssVariableReplacer
+class VariableReplacer
   def initialize(css_vars:, css_data:)
     @css_vars = css_vars.invert
     @css_data = css_data

@@ -6,32 +6,36 @@ The idea for this is sometimes css files get out of hand and they become hard to
 
 Eventually this will accept CSS, SASS, and SCSS files so, in theory, you can update the sample file and it should output itself.
 
-TODO:
+### To Run
 
-- [ ] Write tests
-- [ ] Refactor
-- [ ] Make things configurable
-- [ ] Fix common css errors (like overwriting properties in the same block and combining duplicated blocks.)
-- [ ] Convert SASS to SCSS
-- [ ] Clean up existing SCSS files
+```bash
+ruby -Ilib ./bin/css_cleaner
+```
 
 ### Full Feature Example
 
 **IN ->**
-```css     
+```css
 p {
   color: blue;
   font-size: 15px;
 }
+
+.green { color: green; }
 ```
 
 **OUT ->**
 ```css
 $color-1: blue;
+$color-2: green;
 $font-size-1: 15px;
 
 p {
   color: $color-1;
   font-size: $font-size-1;
+}
+
+.green {
+  color: $color-2;
 }
 ```

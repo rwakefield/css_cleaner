@@ -1,8 +1,8 @@
-require_relative 'css_cleaner/css_string_cleaner.rb'
-require_relative 'css_cleaner/css_extractor.rb'
-require_relative 'css_cleaner/css_variable_extractor.rb'
-require_relative 'css_cleaner/css_variable_replacer.rb'
-require_relative 'css_cleaner/css_data_to_scss_string.rb'
+require_relative 'css_cleaner/cleaner.rb'
+require_relative 'css_cleaner/extractor.rb'
+require_relative 'css_cleaner/variable_extractor.rb'
+require_relative 'css_cleaner/variable_replacer.rb'
+require_relative 'css_cleaner/stringifier.rb'
 
 class CssCleaner
   def initialize(filename:)
@@ -22,23 +22,23 @@ class CssCleaner
   private
 
   def clean_css
-    @css_string = CssStringCleaner.new(css_string: css_string).clean
+    @css_string = Cleaner.new(css_string: css_string).clean
   end
 
   def extract_data
-    @css_data = CssExtractor.new(css_string: css_string).extract
+    @css_data = Extractor.new(css_string: css_string).extract
   end
 
   def extract_vars
-    @css_vars = CssVariableExtractor.new(css_data: css_data).extract_variables
+    @css_vars = VariableExtractor.new(css_data: css_data).extract_variables
   end
 
   def replace_vars_in_data
-    @css_data = CssVariableReplacer.new(css_vars: css_vars, css_data: css_data).replace
+    @css_data = VariableReplacer.new(css_vars: css_vars, css_data: css_data).replace
   end
 
   def convert_data_and_vars_to_string
-    @scss_string = CssDataToScssString.new(css_vars: css_vars, css_data: css_data).generate_string
+    @scss_string = Stringifier.new(css_vars: css_vars, css_data: css_data).generate_string
   end
 
   def output_cleaned_file

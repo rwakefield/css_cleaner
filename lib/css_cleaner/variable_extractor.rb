@@ -1,10 +1,7 @@
 # Return a hasn of dynamically named css variables that match the "property_values"
 # from the given css_data.
-#
-# GIVEN: { "p" => ["color: blue", "font-size: 15px"] }
-# THEN: { "color-1" => "blue", "font-size-1" => "15px" }
 
-class CssVariableExtractor
+class VariableExtractor
 
   def initialize(css_data:)
     @css_data = css_data
