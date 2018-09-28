@@ -4,6 +4,9 @@ require './lib/css_cleaner/extractor.rb'
 def css_string_for_extractor
   <<~EOF
      p {
+       font-size: 20px;
+       color: orange;
+       font-size: 30px;
        color: blue;
        font-size: 15px;
      }
