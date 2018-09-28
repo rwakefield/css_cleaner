@@ -17,25 +17,35 @@ ruby -Ilib ./bin/css_cleaner
 **IN ->**
 ```css
 p {
-  color: blue;
+  font-size: 20px;
+  color: orange;
+  font-size: 30px;
+  color: green;
   font-size: 15px;
 }
 
 .green { color: green; }
+
+p {
+  text-align: center;
+  color: blue;
+}
 ```
 
 **OUT ->**
 ```css
-$color-1: blue;
-$color-2: green;
+$color-1: green;
+$color-2: blue;
 $font-size-1: 15px;
-
-p {
-  color: $color-1;
-  font-size: $font-size-1;
-}
+$text-align-1: center;
 
 .green {
+  color: $color-1;
+}
+
+p {
   color: $color-2;
+  font-size: $font-size-1;
+  text-align: $text-align-1;
 }
 ```

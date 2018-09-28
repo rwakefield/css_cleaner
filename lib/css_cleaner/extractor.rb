@@ -5,15 +5,14 @@ class Extractor
   def initialize(css_string:)
     @css_string = css_string
     @css_data_hash = {}
-    @current_block_name = nil
-    @current_block_properties = []
   end
 
   def extract
     css_string.each_line do |line|
       extract_data_from_line(line)
     end
-    css_data_hash
+    sort_data_properties
+    css_data_hash.sort.to_h
   end
 
   private
@@ -23,7 +22,7 @@ class Extractor
 
   def extract_data_from_line(line)
     if line_is_block_name?(line)
-      @current_block_name = add_block_name(line)
+      add_block_name(line)
     elsif line_is_property_line?(line)
       add_property_line_to_current_block_name(line)
     end
@@ -34,12 +33,17 @@ class Extractor
   end
 
   def add_block_name(line)
-    block_name = line.gsub(' {', '').strip
-    unless css_data_hash[block_name]
-      css_data_hash[block_name] = []
-      current_block_properties = []
+    @current_block_name = line.gsub(' {', '').strip
+    if css_data_hash[current_block_name]
+      remap_current_block_properties
+    else
+      css_data_hash[current_block_name] = []
+      @current_block_properties = []
     end
-    block_name
+  end
+
+  def remap_current_block_properties
+    @current_block_properties = css_data_hash[current_block_name].map { |property_line| property_line.split(':')[0] }
   end
 
   def line_is_property_line?(line)
@@ -68,5 +72,9 @@ class Extractor
     existing_properties = css_data_hash[current_block_name]
     existing_properties.delete_at(duplicate_position)
     css_data_hash[current_block_name] = existing_properties
+  end
+
+  def sort_data_properties
+    css_data_hash.each { |block_name, _properties| css_data_hash[block_name].sort! }
   end
 end
