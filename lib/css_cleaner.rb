@@ -6,7 +6,7 @@ require_relative 'css_cleaner/stringifier.rb'
 
 class CssCleaner
   def initialize(filename:)
-    @filename = filename;
+    @filename = filename
     @css_string = File.read(filename)
   end
 
