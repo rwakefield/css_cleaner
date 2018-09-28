@@ -5,21 +5,28 @@ require_relative 'css_cleaner/variable_replacer.rb'
 require_relative 'css_cleaner/stringifier.rb'
 
 class CssCleaner
-  def initialize(filename:)
+  def initialize(filename:, use_variables: true)
     @filename = filename
+    @use_variables = use_variables
     @css_string = File.read(filename)
   end
 
   def clean
     clean_css
     extract_data
-    extract_vars
-    replace_vars_in_data
-    convert_data_and_vars_to_string
+    if use_vars?
+      extract_vars
+      replace_vars_in_data
+    end
+    convert_data_to_string
     output_cleaned_file
   end
 
   private
+
+  def use_vars?
+    @use_vars ||= !!@use_variables
+  end
 
   def clean_css
     @css_string = Cleaner.new(css_string: css_string).clean
@@ -37,7 +44,7 @@ class CssCleaner
     @css_data = VariableReplacer.new(css_vars: css_vars, css_data: css_data).replace
   end
 
-  def convert_data_and_vars_to_string
+  def convert_data_to_string
     @scss_string = Stringifier.new(css_vars: css_vars, css_data: css_data).generate_string
   end
 

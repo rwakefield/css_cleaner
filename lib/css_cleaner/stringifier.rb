@@ -1,15 +1,17 @@
 # Given the css data and the css vars output it to a formatted scss string
 
 class Stringifier
-  def initialize(css_data:, css_vars:)
+  def initialize(css_data:, css_vars: nil)
     @css_data = css_data
     @css_vars = css_vars
     @scss_string = ""
   end
 
   def generate_string
-    add_vars_to_string
-    scss_string << "\n"
+    if css_vars
+      add_vars_to_string
+      scss_string << "\n"
+    end
     add_data_to_string
     scss_string.strip
   end
